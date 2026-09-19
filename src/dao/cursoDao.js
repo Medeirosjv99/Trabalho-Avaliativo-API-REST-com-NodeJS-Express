@@ -7,35 +7,23 @@ let listar = async function () {
 };
 
 let buscarPorId = async function (id) {
-  const [resultado] = await connection.query(
-    "SELECT * FROM curso WHERE id = ?",
-    [id]
-  );
+  const [resultado] = await connection.query("SELECT * FROM curso WHERE id = ?", [id]);
 
   return resultado[0];
 };
 
-let cadastrar = async function (nome, carga_horaria) {
-  const [resultado] = await connection.query(
-    `INSERT INTO curso (nome, carga_horaria)
-         VALUES (?, ?)`,
-    [nome, carga_horaria]
-  );
+let cadastrar = async function (nome, cargaHoraria) {
+  const [resultado] = await connection.query(`INSERT INTO curso (nome, cargaHoraria) VALUES (?, ?)`, [nome, cargaHoraria]);
 
   return {
     id: resultado.insertId,
     nome: nome,
-    carga_horaria: carga_horaria,
+    cargaHoraria: cargaHoraria,
   };
 };
 
-let alterar = async function (id, nome, carga_horaria) {
-  await connection.query(
-    `UPDATE curso
-         SET nome = ?, carga_horaria = ?
-         WHERE id = ?`,
-    [nome, carga_horaria, id]
-  );
+let alterar = async function (id, nome, cargaHoraria) {
+  await connection.query( `UPDATE curso SET nome = ?, cargaHoraria = ? WHERE id = ?`, [nome, cargaHoraria, id]);
 };
 
 let excluir = async function (id) {
