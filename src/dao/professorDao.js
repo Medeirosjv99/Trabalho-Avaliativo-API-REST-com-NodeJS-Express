@@ -9,7 +9,7 @@ let listar = async function () {
 let buscarPorId = async function (id) {
   const [resultado] = await connection.query(
     "SELECT * FROM professor WHERE id = ?",
-    [id]
+    [id],
   );
 
   return resultado[0];
@@ -19,7 +19,7 @@ let cadastrar = async function (nome, email) {
   const [resultado] = await connection.query(
     `INSERT INTO professor (nome, email)
          VALUES (?, ?)`,
-    [nome, email]
+    [nome, email],
   );
 
   return {
@@ -34,7 +34,7 @@ let alterar = async function (id, nome, email) {
     `UPDATE professor
          SET nome = ?, email = ?
          WHERE id = ?`,
-    [nome, email, id]
+    [nome, email, id],
   );
 };
 
