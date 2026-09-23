@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const express = require("express");
 
 const disciplinaController = require("../controllers/disciplinaController");
@@ -12,7 +11,7 @@ router.put("/disciplinas/:id", disciplinaController.alterar);
 router.delete("/disciplinas/:id", disciplinaController.excluir);
 
 module.exports = router;
-=======
+
 const express = require("express");
 
 const disciplinaController = require("../controllers/disciplinaController");
@@ -26,4 +25,3 @@ router.put("/disciplinas/:id", disciplinaController.alterar);
 router.delete("/disciplinas/:id", disciplinaController.excluir);
 
 module.exports = router;
->>>>>>> fcace83a0a2f7085f74c9db53d521e1a836a282e
