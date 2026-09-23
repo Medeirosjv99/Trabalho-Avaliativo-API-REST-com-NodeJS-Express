@@ -39,18 +39,22 @@ let buscarPorId = async function (req, res) {
 let cadastrar = async function (req, res) {
   try {
 const { nome, cargaHoraria } = req.body || {};
+const { nome, cargaHoraria } = req.body || {};
     if (!nome || nome.trim() === "") {
       return res.status(400).json({
         mensagem: "Nome do curso é obrigatório",
       });
     }   
+    }   
 
+    if (!cargaHoraria || cargaHoraria <= 0) {
     if (!cargaHoraria || cargaHoraria <= 0) {
       return res.status(400).json({
         mensagem: "Carga horária deve ser maior que zero",
       });
     }
 
+    const curso = await cursoDao.cadastrar(nome, cargaHoraria);
     const curso = await cursoDao.cadastrar(nome, cargaHoraria);
 
     res.status(201).json(curso);
@@ -67,12 +71,14 @@ let alterar = async function (req, res) {
   try {
     const id = req.params.id;
 const { nome, cargaHoraria } = req.body || {};
+const { nome, cargaHoraria } = req.body || {};
     if (!nome || nome.trim() === "") {
       return res.status(400).json({
         mensagem: "Nome do curso é obrigatório",
       });
     }
 
+    if (!cargaHoraria || cargaHoraria <= 0) {
     if (!cargaHoraria || cargaHoraria <= 0) {
       return res.status(400).json({
         mensagem: "Carga horária deve ser maior que zero",
@@ -87,6 +93,7 @@ const { nome, cargaHoraria } = req.body || {};
       });
     }
 
+    await cursoDao.alterar(id, nome, cargaHoraria);
     await cursoDao.alterar(id, nome, cargaHoraria);
 
     res.status(200).json({

@@ -8,10 +8,13 @@ let listar = async function () {
 
 let buscarPorId = async function (id) {
   const [resultado] = await connection.query("SELECT * FROM curso WHERE id = ?", [id]);
+  const [resultado] = await connection.query("SELECT * FROM curso WHERE id = ?", [id]);
 
   return resultado[0];
 };
 
+let cadastrar = async function (nome, cargaHoraria) {
+  const [resultado] = await connection.query(`INSERT INTO curso (nome, cargaHoraria) VALUES (?, ?)`, [nome, cargaHoraria]);
 let cadastrar = async function (nome, cargaHoraria) {
   const [resultado] = await connection.query(`INSERT INTO curso (nome, cargaHoraria) VALUES (?, ?)`, [nome, cargaHoraria]);
 
@@ -19,9 +22,12 @@ let cadastrar = async function (nome, cargaHoraria) {
     id: resultado.insertId,
     nome: nome,
     cargaHoraria: cargaHoraria,
+    cargaHoraria: cargaHoraria,
   };
 };
 
+let alterar = async function (id, nome, cargaHoraria) {
+  await connection.query( `UPDATE curso SET nome = ?, cargaHoraria = ? WHERE id = ?`, [nome, cargaHoraria, id]);
 let alterar = async function (id, nome, cargaHoraria) {
   await connection.query( `UPDATE curso SET nome = ?, cargaHoraria = ? WHERE id = ?`, [nome, cargaHoraria, id]);
 };

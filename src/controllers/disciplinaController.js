@@ -39,6 +39,7 @@ let buscarPorId = async function (req, res) {
 let cadastrar = async function (req, res) {
   try {
     const { nome, cargaHoraria, curso, professor } = req.body;
+    const { nome, cargaHoraria, curso, professor } = req.body;
 
     if (!nome || nome.trim() === "") {
       return res.status(400).json({
@@ -47,11 +48,13 @@ let cadastrar = async function (req, res) {
     }
 
     if (!cargaHoraria || cargaHoraria <= 0) {
+    if (!cargaHoraria || cargaHoraria <= 0) {
       return res.status(400).json({
         mensagem: "Carga horária deve ser maior que zero",
       });
     }
 
+    if (!curso) {
     if (!curso) {
       return res.status(400).json({
         mensagem: "Curso é obrigatório",
@@ -59,13 +62,16 @@ let cadastrar = async function (req, res) {
     }
 
     if (!professor) {
+    if (!professor) {
       return res.status(400).json({
         mensagem: "Professor é obrigatório",
       });
     }
 
     const cursoBanco = await disciplinaDao.verificarCurso(curso);
+    const cursoBanco = await disciplinaDao.verificarCurso(curso);
 
+    if (!cursoBanco) {
     if (!cursoBanco) {
       return res.status(404).json({
         mensagem: "Curso não encontrado",
@@ -73,7 +79,9 @@ let cadastrar = async function (req, res) {
     }
 
     const professorBanco = await disciplinaDao.verificarProfessor(professor);
+    const professorBanco = await disciplinaDao.verificarProfessor(professor);
 
+    if (!professorBanco) {
     if (!professorBanco) {
       return res.status(404).json({
         mensagem: "Professor não encontrado",
@@ -82,6 +90,9 @@ let cadastrar = async function (req, res) {
 
     const disciplina = await disciplinaDao.cadastrar(
       nome,
+      cargaHoraria,
+      curso,
+      professor
       cargaHoraria,
       curso,
       professor
@@ -102,6 +113,7 @@ let alterar = async function (req, res) {
     const id = req.params.id;
 
     const { nome, cargaHoraria, curso, professor } = req.body;
+    const { nome, cargaHoraria, curso, professor } = req.body;
 
     if (!nome || nome.trim() === "") {
       return res.status(400).json({
@@ -110,17 +122,20 @@ let alterar = async function (req, res) {
     }
 
     if (!cargaHoraria || cargaHoraria <= 0) {
+    if (!cargaHoraria || cargaHoraria <= 0) {
       return res.status(400).json({
         mensagem: "Carga horária deve ser maior que zero",
       });
     }
 
     if (!curso) {
+    if (!curso) {
       return res.status(400).json({
         mensagem: "Curso é obrigatório",
       });
     }
 
+    if (!professor) {
     if (!professor) {
       return res.status(400).json({
         mensagem: "Professor é obrigatório",
@@ -136,7 +151,9 @@ let alterar = async function (req, res) {
     }
 
     const cursoBanco = await disciplinaDao.verificarCurso(curso);
+    const cursoBanco = await disciplinaDao.verificarCurso(curso);
 
+    if (!cursoBanco) {
     if (!cursoBanco) {
       return res.status(404).json({
         mensagem: "Curso não encontrado",
@@ -144,7 +161,9 @@ let alterar = async function (req, res) {
     }
 
     const professorBanco = await disciplinaDao.verificarProfessor(professor);
+    const professorBanco = await disciplinaDao.verificarProfessor(professor);
 
+    if (!professorBanco) {
     if (!professorBanco) {
       return res.status(404).json({
         mensagem: "Professor não encontrado",
@@ -154,6 +173,9 @@ let alterar = async function (req, res) {
     await disciplinaDao.alterar(
       id,
       nome,
+      cargaHoraria,
+      curso,
+      professor
       cargaHoraria,
       curso,
       professor

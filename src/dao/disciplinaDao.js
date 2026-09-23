@@ -9,14 +9,23 @@ let listar = async function (filtros) {
   INNER JOIN professor p 
   ON p.id = d.professor WHERE 1 = 1 `;
 
+  let sql = `SELECT d.id, d.nome, d.cargaHoraria, c.nome AS curso, p.nome AS professor 
+  FROM disciplina d 
+  INNER JOIN curso c 
+  ON c.id = d.curso 
+  INNER JOIN professor p 
+  ON p.id = d.professor WHERE 1 = 1 `;
+
   let parametros = [];
 
   if (filtros.curso) {
+    sql += " AND d.curso = ?";
     sql += " AND d.curso = ?";
     parametros.push(filtros.curso);
   }
 
   if (filtros.professor) {
+    sql += " AND d.professor = ?";
     sql += " AND d.professor = ?";
     parametros.push(filtros.professor);
   }
@@ -33,7 +42,15 @@ let listar = async function (filtros) {
 
 let buscarPorId = async function (id) {
 
+
   const [resultado] = await connection.query(
+    `SELECT d.id, d.nome, d.cargaHoraria, d.curso, d.professor,
+            c.nome AS curso, p.nome AS professor
+     FROM disciplina d
+     INNER JOIN curso c ON c.id = d.curso
+     INNER JOIN professor p ON p.id = d.professor
+     WHERE d.id = ?`,
+    [id],
     `SELECT d.id, d.nome, d.cargaHoraria, d.curso, d.professor,
             c.nome AS curso, p.nome AS professor
      FROM disciplina d
@@ -48,8 +65,11 @@ let buscarPorId = async function (id) {
 
 let verificarCurso = async function (curso) {
 
+let verificarCurso = async function (curso) {
+
   const [resultado] = await connection.query(
     "SELECT id FROM curso WHERE id = ?",
+    [curso],
     [curso],
   );
 
@@ -58,8 +78,11 @@ let verificarCurso = async function (curso) {
 
 let verificarProfessor = async function (professor) {
 
+let verificarProfessor = async function (professor) {
+
   const [resultado] = await connection.query(
     "SELECT id FROM professor WHERE id = ?",
+    [professor],
     [professor],
   );
 
@@ -68,7 +91,12 @@ let verificarProfessor = async function (professor) {
 
 let cadastrar = async function (nome, cargaHoraria, curso, professor) {
 
+let cadastrar = async function (nome, cargaHoraria, curso, professor) {
+
   const [resultado] = await connection.query(
+    `INSERT INTO disciplina (nome, cargaHoraria, curso, professor)
+     VALUES (?, ?, ?, ?)`,
+    [nome, cargaHoraria, curso, professor],
     `INSERT INTO disciplina (nome, cargaHoraria, curso, professor)
      VALUES (?, ?, ?, ?)`,
     [nome, cargaHoraria, curso, professor],
@@ -80,8 +108,13 @@ let cadastrar = async function (nome, cargaHoraria, curso, professor) {
     cargaHoraria: cargaHoraria,
     curso: curso,
     professor: professor,
+    cargaHoraria: cargaHoraria,
+    curso: curso,
+    professor: professor,
   };
 };
+
+let alterar = async function (id, nome, cargaHoraria, curso, professor) {
 
 let alterar = async function (id, nome, cargaHoraria, curso, professor) {
 
@@ -90,10 +123,19 @@ let alterar = async function (id, nome, cargaHoraria, curso, professor) {
      SET nome = ?, cargaHoraria = ?, curso = ?, professor = ?
      WHERE id = ?`,
     [nome, cargaHoraria, curso, professor, id],
+    `UPDATE disciplina
+     SET nome = ?, cargaHoraria = ?, curso = ?, professor = ?
+     WHERE id = ?`,
+    [nome, cargaHoraria, curso, professor, id],
   );
 };
 
 let excluir = async function (id) {
+
+  await connection.query(
+    "DELETE FROM disciplina WHERE id = ?",
+    [id],
+  );
 
   await connection.query(
     "DELETE FROM disciplina WHERE id = ?",
